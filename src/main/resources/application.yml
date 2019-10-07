@@ -1,0 +1,5 @@
+server:
+  port: 1899
+
+mock:
+  files-path: src/main/resources/json/

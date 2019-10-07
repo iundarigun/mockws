@@ -1,0 +1,77 @@
+[
+  {
+    "queueName": "queue-01",
+    "exchangeName": "generic-exchange",
+    "consumers": 6
+  },
+  {
+    "queueName": "queue-02",
+    "exchangeName": "generic-exchange",
+    "consumers": 4
+  },
+  {
+    "queueName": "queue-03",
+    "exchangeName": "generic-exchange",
+    "consumers": 4
+  },
+  {
+    "queueName": "queue-04",
+    "exchangeName": "generic-exchange",
+    "consumers": 4
+  },
+  {
+    "queueName": "queue-05",
+    "exchangeName": "generic-exchange",
+    "consumers": 4
+  },
+  {
+    "queueName": "queue-06",
+    "exchangeName": "generic-exchange",
+    "consumers": 4
+  },
+  {
+    "queueName": "queue-07",
+    "exchangeName": "generic-exchange",
+    "consumers": 4
+  },
+  {
+    "queueName": "queue-08",
+    "exchangeName": "generic-exchange",
+    "consumers": 4
+  },
+  {
+    "queueName": "queue-09",
+    "exchangeName": "generic-exchange",
+    "consumers": 4
+  },
+  {
+    "queueName": "queue-10",
+    "exchangeName": "generic-exchange",
+    "consumers": 4
+  },
+  {
+    "queueName": "queue-11",
+    "exchangeName": "generic-exchange",
+    "consumers": 6
+  },
+  {
+    "queueName": "queue-12",
+    "exchangeName": "generic-exchange",
+    "consumers": 6
+  },
+  {
+    "queueName": "queue-13",
+    "exchangeName": "generic-exchange",
+    "consumers": 6
+  },
+  {
+    "queueName": "queue-15",
+    "exchangeName": "generic-exchange",
+    "consumers": 6
+  },
+  {
+    "queueName": "queue-17",
+    "exchangeName": "generic-exchange",
+    "consumers": 4
+  }
+]

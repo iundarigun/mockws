@@ -1,0 +1,14 @@
+[
+  {
+    "url": "/queue-definitions",
+    "file": "queueDefinitions.json",
+    "verbs": ["GET", "POST"],
+    "status": 200
+  },
+  {
+    "url": "/queue-definitions",
+    "file": "queueDefinitions.json",
+    "verbs": ["PUT"],
+    "status": 404
+  }
+]
