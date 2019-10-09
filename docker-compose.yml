@@ -1,8 +1,0 @@
-mock:
-  build: .
-  entrypoint: "./gradlew bootRun"
-  ports:
-    - "1899:1899"
-  volumes:
-    - ./:/app
-    - ~/.m2:/root/.m2
