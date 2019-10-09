@@ -2,4 +2,5 @@ server:
   port: 1899
 
 mock:
+  definition-path: src/main/resources/
   files-path: src/main/resources/json/
