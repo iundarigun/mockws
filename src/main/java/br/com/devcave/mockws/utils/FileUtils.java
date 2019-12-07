@@ -8,9 +8,16 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.Random;
 
 @Slf4j
 public class FileUtils {
+
+    public static void main(String[] args) {
+        for(int i=0; i<20;i++){
+            System.out.println(new Random().nextInt(10)+1);
+        }
+    }
 
     public static String readFromFile(final String path, final String filename) {
         try {

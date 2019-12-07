@@ -1,7 +1,7 @@
 FROM openjdk:12
 
-ENV mock_definition-path="" \
-    mock_files-path=""
+ENV mock_definition-path="/home/config/" \
+    mock_files-path="/home/config/json/"
 
 ENTRYPOINT ["/usr/bin/java", "-jar", "/home/mock.jar"]
 

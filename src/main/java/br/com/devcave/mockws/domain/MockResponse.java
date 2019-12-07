@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -24,4 +23,12 @@ public class MockResponse {
     private String file;
 
     private List<String> verbs;
+
+    private int ratioError = 0;
+
+    private int delay = 0;
+
+    public int getRatioError() {
+        return Math.min(this.ratioError, 100);
+    }
 }

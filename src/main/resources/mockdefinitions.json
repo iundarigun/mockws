@@ -10,5 +10,29 @@
     "file": "queueDefinitions.json",
     "verbs": ["PUT"],
     "status": 404
+  },
+  {
+    "url": "/retry",
+    "file": "retry.json",
+    "verbs": ["GET"],
+    "status": 200,
+    "ratioError": 10,
+    "delay": 2000
+  },
+  {
+    "url": "/products/",
+    "file": "queueDefinitions.json",
+    "verbs": ["GET"],
+    "status": 200,
+    "ratioError": 0,
+    "delay": 0
+  },
+  {
+    "url": "/products/",
+    "file": "queueDefinitions.json",
+    "verbs": ["POST"],
+    "status": 200,
+    "ratioError": 0,
+    "delay": 3000
   }
 ]

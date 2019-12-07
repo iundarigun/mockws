@@ -4,3 +4,7 @@ server:
 mock:
   definition-path: src/main/resources/
   files-path: src/main/resources/json/
+
+spring:
+  application:
+    name: mock-ws
