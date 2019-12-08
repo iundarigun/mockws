@@ -32,10 +32,14 @@ public class MockApplication {
     }
 
     @PostConstruct
-    public void fillMock() throws IOException {
+    public void fillMock() {
         val path = StringUtils.isEmpty(definitionPath)?"classpath:":definitionPath;
-        String definitions = FileUtils.readFromFile(path, "mockdefinitions.json");
-        MockResponse[] mockResponseList = objectMapper.readValue(definitions, MockResponse[].class);
-        MockFilter.mockResponseList.addAll(Arrays.asList(mockResponseList));
+        try {
+            String definitions = FileUtils.readFromFile(path, "mockdefinitions.json");
+            MockResponse[] mockResponseList = objectMapper.readValue(definitions, MockResponse[].class);
+            MockFilter.mockResponseList.addAll(Arrays.asList(mockResponseList));
+        }catch(Exception exception){
+            log.warn("No definition file found!");
+        }
     }
 }
