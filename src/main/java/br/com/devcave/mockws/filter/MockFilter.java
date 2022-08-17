@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -72,7 +73,7 @@ public class MockFilter implements Filter {
 
     private void processResponse(final MockResponse mockResponse, final ServletResponse servletResponse) throws IOException {
         ((ResponseFacade) servletResponse).setStatus(mockResponse.getStatus());
-        servletResponse.setContentType("application/json");
+        servletResponse.setContentType("application/json;charset=UTF-8");
         PrintWriter out = servletResponse.getWriter();
         out.print(FileUtils.readFromFile(path, mockResponse.getFile()));
     }
