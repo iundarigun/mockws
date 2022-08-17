@@ -20,6 +20,7 @@ import javax.servlet.ServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -34,11 +35,17 @@ public class MockFilter implements Filter {
 
     public static List<MockResponse> mockResponseList = new ArrayList<>();
 
-    @Value("${mock.files-path:}")
-    private String path;
 
-    @Autowired
-    private ObjectMapper mapper;
+    private final String path;
+
+    private final ObjectMapper mapper;
+
+    public MockFilter(@Value("${mock.files-path:}")
+                      final String path,
+                      final ObjectMapper mapper) {
+        this.path = path.lastIndexOf("/") == path.length() - 1 ? path : path + "/";
+        this.mapper = mapper;
+    }
 
     @Override
     public void doFilter(ServletRequest servletRequest,
@@ -48,33 +55,64 @@ public class MockFilter implements Filter {
 
         getInfoFromRequest(requestFacade);
 
-        String requestURI = ((RequestFacade) servletRequest).getRequestURI();
-        String method = ((RequestFacade) servletRequest).getMethod();
-        Optional<MockResponse> mockResponse = mockResponseList.stream()
-                .filter(m -> requestURI.contains(m.getUrl()) && m.getVerbs().contains(method))
-                .findFirst();
-        if (mockResponse.isEmpty()) {
+
+        Optional<MockResponse> optionalMockResponse = retrieveMockResponse(requestFacade);
+
+        if (optionalMockResponse.isEmpty()) {
             log.warn("No definition found");
             ((ResponseFacade) servletResponse).setStatus(HttpStatus.OK.value());
         } else {
-            if (mockResponse.get().getDelay() > 0) {
-                try {
-                    Thread.sleep(mockResponse.get().getDelay());
-                } catch (InterruptedException ignored) {
-                }
-            }
-            int randomNumber = new Random().nextInt(100) + 1;
-            if (randomNumber <= mockResponse.get().getRatioError()) {
-                log.warn("Random error");
-                ((ResponseFacade) servletResponse).setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-                servletResponse.getWriter().print("Random error");
-            } else {
-                ((ResponseFacade) servletResponse).setStatus(mockResponse.get().getStatus());
-                servletResponse.setContentType("application/json");
-                PrintWriter out = servletResponse.getWriter();
-                out.print(FileUtils.readFromFile(path, mockResponse.get().getFile()));
+            final MockResponse mockResponse = optionalMockResponse.get();
+            processDelay(mockResponse);
+            if (!processRandomError(mockResponse, servletResponse)) {
+                processResponse(mockResponse, servletResponse);
             }
         }
+    }
+
+    private void processResponse(final MockResponse mockResponse, final ServletResponse servletResponse) throws IOException {
+        ((ResponseFacade) servletResponse).setStatus(mockResponse.getStatus());
+        servletResponse.setContentType("application/json");
+        PrintWriter out = servletResponse.getWriter();
+        out.print(FileUtils.readFromFile(path, mockResponse.getFile()));
+    }
+
+    private void processDelay(final MockResponse response) {
+        if (response.getDelay() > 0) {
+            try {
+                Thread.sleep(response.getDelay());
+            } catch (InterruptedException ignored) {
+            }
+        }
+    }
+
+    private boolean processRandomError(final MockResponse response, final ServletResponse servletResponse) throws IOException {
+        int randomNumber = new Random().nextInt(100) + 1;
+        if (randomNumber <= response.getRatioError()) {
+            log.warn("Random error");
+            ((ResponseFacade) servletResponse).setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            servletResponse.getWriter().print("Random error");
+            return true;
+        }
+        return false;
+    }
+
+    private Optional<MockResponse> retrieveMockResponse(RequestFacade requestFacade) {
+        String requestURI = requestFacade.getRequestURI();
+        String method = requestFacade.getMethod();
+        final Map<String, String[]> params = requestFacade.getParameterMap();
+        return mockResponseList.stream()
+                .filter(m -> requestURI.contains(m.getUrl()) && m.getVerbs().contains(method))
+                .filter(m -> {
+                    if (m.getParam() != null) {
+                        final String[] values = params.getOrDefault(m.getParam().getKey(), new String[]{});
+                        if (values.length > 0) {
+                            return Arrays.stream(values).toList().contains(m.getParam().getValue());
+                        }
+                    }
+                    return true;
+                })
+                .findFirst();
     }
 
     private void getInfoFromRequest(RequestFacade request) throws JsonProcessingException {

@@ -9,6 +9,7 @@ There is a `mockdefinitions.json` file in `resources` folder, that contains a li
     "url": "/url-request",
     "file": "response.json",
     "verbs": ["GET", "POST"], 
+    "param": { "name":  "value"},
     "status": 200,
     "ratioError": 10,
     "delay": 2000

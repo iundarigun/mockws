@@ -1,8 +1,8 @@
-FROM openjdk:12
+FROM openjdk:17-slim
 
 ENV mock_definition-path="/home/config/" \
     mock_files-path="/home/config/json/"
 
-ENTRYPOINT ["/usr/bin/java", "-jar", "/home/mock.jar"]
+ENTRYPOINT ["java", "-jar", "/home/mock.jar"]
 
 ADD build/libs/*.jar /home/mock.jar
