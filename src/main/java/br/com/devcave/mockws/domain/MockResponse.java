@@ -1,13 +1,12 @@
 package br.com.devcave.mockws.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -17,6 +16,8 @@ public class MockResponse {
 
     @EqualsAndHashCode.Include
     private String url;
+
+    private Map.Entry<String, String> param;
 
     private int status;
 

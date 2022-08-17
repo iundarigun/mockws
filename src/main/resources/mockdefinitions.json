@@ -2,14 +2,22 @@
   {
     "url": "/queue-definitions",
     "file": "queueDefinitions.json",
-    "verbs": ["GET", "POST"],
+    "verbs": ["POST"],
     "status": 200
   },
   {
     "url": "/queue-definitions",
     "file": "queueDefinitions.json",
-    "verbs": ["PUT"],
+    "verbs": ["GET"],
+    "param": {"cvcvc":  "def"},
     "status": 404
+  },
+  {
+    "url": "/queue-definitions",
+    "file": "queueDefinitions.json",
+    "verbs": ["GET"],
+    "param": {"cvcvc":  "mac"},
+    "status": 200
   },
   {
     "url": "/retry",
